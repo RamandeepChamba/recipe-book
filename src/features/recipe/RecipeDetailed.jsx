@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import Image from "../../assets/recipe.webp";
 import { respond } from "../../styles/mixins";
+import { useParams } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -88,6 +89,8 @@ const Container = styled.div`
 `;
 
 function RecipeDetailed() {
+  const { id } = useParams();
+  console.log(id);
   return (
     <Container>
       {/* image */}

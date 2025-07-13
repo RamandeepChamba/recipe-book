@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { Button } from "../../ui/Button";
 import BackgroundImg from "../../assets/recipe.webp";
 import { respond } from "../../styles/mixins";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
   aspect-ratio: 3 / 4;
@@ -28,26 +29,44 @@ const Container = styled.div`
     text-transform: uppercase;
     transform: translateY(calc(1rem * 2 + 1.6rem + 1rem));
     transition: 0.2s all;
+
+    /* No hover effect on touch devices */
+    @media (hover: none) and (pointer: coarse) {
+      transform: translateY(0);
+    }
   }
-  button {
+  .cta {
     transform: translateY(calc(100% + 1rem));
     transition: 0.2s all;
+
+    /* No hover effect on touch devices */
+    @media (hover: none) and (pointer: coarse) {
+      transform: translateY(0);
+    }
   }
 
   &:hover {
-    button,
+    .cta,
     h3 {
       transform: translateY(0);
     }
   }
 `;
 
-function RecipeListItem() {
+function RecipeListItem({ recipe }) {
+  const { id, name } = recipe;
   return (
     <Container>
       {/* Name */}
-      <h3>Mexican Pizza</h3>
-      <Button variation="primary">View Details</Button>
+      <h3>{name}</h3>
+      <Button
+        as={Link}
+        to={`/recipe/${id}`}
+        variation="primary"
+        className="cta"
+      >
+        View Details
+      </Button>
     </Container>
   );
 }

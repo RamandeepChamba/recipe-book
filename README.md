@@ -1,3 +1,10 @@
+# TODOS
+
+- pagination in recipes
+  - pagination component should receive recepiesToView.length
+- feature to add recipe
+  - images for recipes
+
 # User stories
 
 - as a user, i should be able to add a recipe
@@ -15,3 +22,22 @@
 - 'app/recipes'
 - 'app/recipes/:query'
 - 'app/recipe/:id'
+
+# Search recipe
+
+## By Keyword
+
+- accepts a keyword
+- looks for keyword in recipe's name and steps
+- case insensitive
+
+## By Ingredients
+
+- accepts one or multiple ingredients and looks for them in recipe
+- match all ingredients (recipe should have all ingredients)
+  - Search Query: 'tomato + onion + sugar'
+- match any
+  - Search Query: 'tomato, onion, sugar'
+- just one ingredient
+  - Search Query: 'tomato'
+- case insensitive

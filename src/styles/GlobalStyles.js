@@ -50,6 +50,10 @@ const GlobalStyles = createGlobalStyle`
  body {
     font-size: 1.6rem;
     font-family: "Montserrat", sans-serif;
+
+    ::selection {
+      background-color: var(--color-primary-2);
+    }
  }
  *,
  *::before,
