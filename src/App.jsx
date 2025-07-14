@@ -10,8 +10,8 @@ function App() {
   return (
     <div>
       <GlobalStyles />
-      <RecipesProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <RecipesProvider>
           <Routes>
             <Route path="" element={<AppLayout />}>
               <Route path="/" element={<Recipes />} />
@@ -19,8 +19,8 @@ function App() {
               <Route path="/recipe/:id" element={<Recipe />} />
             </Route>
           </Routes>
-        </BrowserRouter>
-      </RecipesProvider>
+        </RecipesProvider>
+      </BrowserRouter>
     </div>
   );
 }

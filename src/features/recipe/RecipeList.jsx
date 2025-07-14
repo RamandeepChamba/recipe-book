@@ -28,7 +28,7 @@ function RecipeList() {
   useEffect(
     function () {
       // recipesToView will update after this
-      provideRecipes({ searchQuery, searchBy, page });
+      provideRecipes({ searchQuery, searchBy, pageFromUrl: page });
     },
     [searchQuery, searchBy, page]
   );

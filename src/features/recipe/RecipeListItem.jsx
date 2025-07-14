@@ -58,7 +58,9 @@ function RecipeListItem({ recipe }) {
   return (
     <Container>
       {/* Name */}
-      <h3>{name}</h3>
+      <h3>
+        {name} <span>{id}</span>
+      </h3>
       <Button
         as={Link}
         to={`/recipe/${id}`}

@@ -60,6 +60,7 @@ const StyledSearchRecipeForm = styled.form`
       width: max-content;
       border-radius: 6px;
       top: 1rem;
+      opacity: 0.9;
 
       &::after {
         content: "";
@@ -110,7 +111,7 @@ function SearchRecipeForm() {
             onChange={(e) => setSearchQuery(e.target.value)}
             required
           />
-          {!searchQuery && (
+          {!searchQuery && searchBy === "ingredients" && (
             <div className="tooltip">
               <div className="tooltip__text">
                 <p>Match any: tomato, onion, garlic</p>

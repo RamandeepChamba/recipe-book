@@ -1,12 +1,24 @@
 import { createContext, useContext, useState } from "react";
 import { RECIPES_PER_PAGE } from "../utils/constants";
+import { useSearchParams } from "react-router-dom";
 
 const RecipesContext = createContext();
 
-const recipesTemp = [
+const recipesTemp1 = Array.from({ length: 150 }, (_, i) => ({
+  id: i,
+  name: "Mexican pizza",
+  ingredients: [
+    { name: "Salt", quantity: 2, unit: "tsp" },
+    { name: "sugar", quantity: 2, unit: "tsp" },
+    { name: "flour", quantity: 20, unit: "g" },
+  ],
+  steps: ["Chicken or something", "step #2"],
+}));
+
+const recipesTemp2 = [
   {
-    id: 1,
-    name: "Mexican pizza",
+    id: "s1",
+    name: "pizza",
     ingredients: [
       { name: "Salt", quantity: 2, unit: "tsp" },
       { name: "sugar", quantity: 2, unit: "tsp" },
@@ -15,7 +27,7 @@ const recipesTemp = [
     steps: ["Chicken or something", "step #2"],
   },
   {
-    id: 2,
+    id: "s2",
     name: "Idli",
     ingredients: [
       { name: "Salt", quantity: 2, unit: "tsp" },
@@ -24,7 +36,7 @@ const recipesTemp = [
     steps: ["step #1", "step #2"],
   },
   {
-    id: 3,
+    id: "s3",
     name: "Shake",
     ingredients: [
       { name: "Banana", quantity: 3, unit: "pieces" },
@@ -35,16 +47,27 @@ const recipesTemp = [
   },
 ];
 
+const recipesTemp = [...recipesTemp1, ...recipesTemp2];
+
 export function RecipesProvider({ children }) {
   // TODO: Load from local storage
   const [recipes, setRecipes] = useState(recipesTemp);
   // Using this in case user has searched previously and is only changing page
   // Avoids filtering again if only page is changed but query is same
+  // For optimization
   const [searchedRecipes, setSearchedRecipes] = useState({
     searchQuery: "",
     searchBy: "",
     filteredRecipes: [],
   });
+  const [searchParams, setSearchParams] = useSearchParams();
+  // For pagination
+  // If there's a search query in url pagination should get filtered recipe count
+  // else all recipe count
+  const searchQueryParam = searchParams.get("searchQuery");
+  const recipesCount = searchQueryParam
+    ? searchedRecipes.filteredRecipes.length
+    : recipes.length;
   // Recipes to view
   const [recipesToView, setRecipesToView] = useState([]);
 
@@ -57,6 +80,7 @@ export function RecipesProvider({ children }) {
   // Will be used to view recipes based on search and pagination
   function provideRecipes({ searchQuery, searchBy, pageFromUrl }) {
     const page = pageFromUrl ? pageFromUrl : 1;
+
     if (!searchQuery) {
       // view recipes by paginating original recipes
       paginateRecipes(page, recipes);
@@ -146,7 +170,9 @@ export function RecipesProvider({ children }) {
   }
 
   return (
-    <RecipesContext.Provider value={{ recipesToView, provideRecipes }}>
+    <RecipesContext.Provider
+      value={{ recipesToView, recipesCount, provideRecipes }}
+    >
       {children}
     </RecipesContext.Provider>
   );

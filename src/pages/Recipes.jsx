@@ -1,9 +1,9 @@
-import RecipeList from "../features/recipe/RecipeList";
+import RecipesWithPagination from "../features/recipe/RecipesWithPagination";
 
 function Recipes() {
   return (
     <div>
-      <RecipeList />
+      <RecipesWithPagination />
     </div>
   );
 }

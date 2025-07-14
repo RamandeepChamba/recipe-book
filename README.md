@@ -1,9 +1,9 @@
 # TODOS
 
-- pagination in recipes
-  - pagination component should receive recepiesToView.length
+- use state in recipeDetailed
 - feature to add recipe
   - images for recipes
+- link to go back to all recipes ('/')
 
 # User stories
 
@@ -41,3 +41,8 @@
 - just one ingredient
   - Search Query: 'tomato'
 - case insensitive
+
+# How app works under the hood
+
+- RecipeList component gets search params (searchQuery, searchBy and page)
+  and filters recipes using provideRecipes function in RecipesProvider
