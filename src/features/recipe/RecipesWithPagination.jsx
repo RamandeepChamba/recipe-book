@@ -5,7 +5,8 @@ import { RECIPES_PER_PAGE } from "../../utils/constants";
 import RecipeList from "./RecipeList";
 
 function RecipesWithPagination() {
-  const { recipesToView, recipesCount } = useRecipes();
+  const { state, recipesCount } = useRecipes();
+  const { recipesToView } = state;
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("searchQuery");
   const searchBy = searchParams.get("searchBy");

@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 import RecipeListItem from "./RecipeListItem";
 import { respond } from "../../styles/mixins";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useRecipes } from "../../contexts/RecipesProvider";
 
@@ -20,7 +20,8 @@ const Grid = styled.div`
 
 function RecipeList() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { recipesToView, provideRecipes } = useRecipes();
+  const { state, dispatch } = useRecipes();
+  const { recipesToView } = state;
   const searchQuery = searchParams.get("searchQuery");
   const searchBy = searchParams.get("searchBy");
   const page = searchParams.get("page");
@@ -28,7 +29,10 @@ function RecipeList() {
   useEffect(
     function () {
       // recipesToView will update after this
-      provideRecipes({ searchQuery, searchBy, pageFromUrl: page });
+      dispatch({
+        type: "filterRecipes",
+        payload: { searchQuery, searchBy, pageFromUrl: page },
+      });
     },
     [searchQuery, searchBy, page]
   );
