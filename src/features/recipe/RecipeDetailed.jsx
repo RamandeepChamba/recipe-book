@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import Image from "../../assets/recipe.webp";
 import { respond } from "../../styles/mixins";
 import { useParams } from "react-router-dom";
+import { useRecipes } from "../../contexts/RecipesProvider";
 
 const Container = styled.div`
   display: flex;
@@ -90,33 +91,35 @@ const Container = styled.div`
 
 function RecipeDetailed() {
   const { id } = useParams();
-  console.log(id);
+  const {getRecipe} = useRecipes();
+  const recipe = getRecipe(id);
+  const {imgUrl, name, ingredients, steps} = recipe ?? {};
   return (
+    <>
+      {!recipe && <p>No recipe found :(</p>}
+      {recipe && 
     <Container>
       {/* image */}
       <div className="image-wrapper">
-        <img src={Image} alt="Mexican Pizza" />
+        <img src={imgUrl} alt="Mexican Pizza" />
       </div>
       {/* Details */}
       <div className="details">
-        <h2 className="name">Mexican Pizza</h2>
+        <h2 className="name">{name}</h2>
         <hr />
         <h3 className="section-heading">Ingredients</h3>
         <ul>
-          <li>Salt 2 tsp</li>
-          <li>Flour 20 g</li>
-          <li>Sugar 2 tsp</li>
-          <li>Onion 2 pieces</li>
+          {ingredients.map(({name, quantity, unit},i) => <li key={`ing-${i}`}>{name} {quantity} {unit}</li>)}
         </ul>
         <hr />
         <h3 className="section-heading">Steps</h3>
         <ol>
-          <li>Pour two cups of water</li>
-          <li>step #2</li>
-          <li>step #3</li>
+          {steps.map((step,i) => <li key={`step-${i}`}>{step}</li>)}
         </ol>
       </div>
     </Container>
+}
+</>
   );
 }
 

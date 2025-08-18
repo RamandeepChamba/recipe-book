@@ -1,19 +1,19 @@
-import { createContext, useContext, useReducer } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 import { RECIPES_PER_PAGE } from "../utils/constants";
 import { useSearchParams } from "react-router-dom";
 
 const RecipesContext = createContext();
 
-const recipesTemp1 = Array.from({ length: 150 }, (_, i) => ({
-  id: i,
-  name: "Mexican pizza",
-  ingredients: [
-    { name: "Salt", quantity: 2, unit: "tsp" },
-    { name: "sugar", quantity: 2, unit: "tsp" },
-    { name: "flour", quantity: 20, unit: "g" },
-  ],
-  steps: ["Chicken or something", "step #2"],
-}));
+// const recipesTemp1 = Array.from({ length: 150 }, (_, i) => ({
+//   id: i,
+//   name: "Mexican pizza",
+//   ingredients: [
+//     { name: "Salt", quantity: 2, unit: "tsp" },
+//     { name: "sugar", quantity: 2, unit: "tsp" },
+//     { name: "flour", quantity: 20, unit: "g" },
+//   ],
+//   steps: ["Chicken or something", "step #2"],
+// }));
 
 const recipesTemp2 = [
   {
@@ -47,11 +47,12 @@ const recipesTemp2 = [
   },
 ];
 
-const recipesTemp = [...recipesTemp1, ...recipesTemp2];
+// const recipesTemp = [...recipesTemp1, ...recipesTemp2];
+const recipesTemp = [...recipesTemp2];
 
 const initState = {
-  // TODO: Load from local storage
-  recipes: recipesTemp,
+  // Load from local storage
+  recipes: JSON.parse(localStorage.getItem('recipes')) ?? recipesTemp,
   // Using this in case user has searched previously and is only changing page
   // Avoids filtering again if only page is changed but query is same
   // For optimization
@@ -164,6 +165,9 @@ function reducer(state, action) {
       }
     }
     // Add recipe
+    case "addRecipe": {
+      return {...state, recipes: [...state.recipes, action.payload]}
+    }
     default:
       return state;
   }
@@ -181,8 +185,17 @@ export function RecipesProvider({ children }) {
     ? state.searchedRecipes.filteredRecipes.length
     : state.recipes.length;
 
+  // Sync local storage
+  useEffect(function() {
+    localStorage.setItem('recipes', JSON.stringify(state.recipes));
+  }, [state]);
+
+  function getRecipe(id) {
+    return state.recipes.find(rec => rec.id === id);
+  }
+
   return (
-    <RecipesContext.Provider value={{ state, dispatch, recipesCount }}>
+    <RecipesContext.Provider value={{ state, dispatch, recipesCount, getRecipe }}>
       {children}
     </RecipesContext.Provider>
   );

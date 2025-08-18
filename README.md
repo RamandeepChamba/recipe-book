@@ -1,10 +1,10 @@
 # TODOS
 
-- use state in recipeDetailed
+- use state in recipeDetailed ✅
 - feature to add recipe
   - images for recipes
 - link to go back to all recipes ('/')
-- locally store recipes
+- locally store recipes ✅
 
 # User stories
 
@@ -20,8 +20,7 @@
 # Pages
 
 - 'app/addRecipe'
-- 'app/recipes'
-- 'app/recipes/:query'
+- 'app/'
 - 'app/recipe/:id'
 
 # Search recipe
@@ -45,5 +44,7 @@
 
 # How app works under the hood
 
+- using useReducer + Context API for state.
+- using search params.
 - RecipeList component gets search params (searchQuery, searchBy and page)
-  and filters recipes using provideRecipes function in RecipesProvider
+  and filters recipes

@@ -7,6 +7,10 @@ import { StyledForm } from "../../ui/Form";
 import FormIngredient from "./FormIngredient";
 import AddUpdateStepForm from "./AddUpdateStepForm";
 import FormStep from "./FormStep";
+import { v4 as uuidv4 } from "uuid";
+import { uploadRecipeImage } from "../../services/apiRecipeImages";
+import { useRecipes } from "../../contexts/RecipesProvider";
+import { useNavigate } from "react-router-dom";
 
 const Form = styled(StyledForm)`
   margin-top: 10rem;
@@ -25,6 +29,7 @@ const Form = styled(StyledForm)`
 `;
 function AddRecipeForm() {
   const [name, setName] = useState("");
+  const [image, setImage] = useState(null);
   const [showIngredientForm, setShowIngredientForm] = useState(false);
   const [showStepForm, setShowStepForm] = useState(false);
   // used for updating the ingredient
@@ -33,16 +38,25 @@ function AddRecipeForm() {
   // used for updating the step
   const [currentStep, setCurrentStep] = useState(null);
   const [steps, setSteps] = useState([]);
+  const {dispatch} = useRecipes();
+  const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (!name || ingredients.length === 0 || steps.length === 0) return;
+    // Image url
     const recipe = {
+      id: uuidv4(),
       name,
       ingredients,
       steps,
     };
+
+    const imgUrl = await uploadRecipeImage(image);
+    recipe.imgUrl = imgUrl;
     console.log(recipe);
+    dispatch({type: 'addRecipe', payload: recipe});
+    navigate(`/recipe/${recipe.id}`);
   }
   function handleAddIngredientBtn() {
     setCurrentIngredient(null);
@@ -108,7 +122,14 @@ function AddRecipeForm() {
         />
         <div>
           <label htmlFor="recipe-image">Finished Image</label>
-          <input type="file" name="recipe-image" id="recipe-image" required />
+          <input
+            type="file"
+            name="recipe-image"
+            id="recipe-image"
+            accept="image/*"
+            onChange={(e) => setImage(e.target.files[0])}
+            required
+          />
         </div>
         <Button type="button" variation="dark" onClick={handleAddIngredientBtn}>
           + Add Ingredient
