@@ -1,7 +1,7 @@
 # TODOS
 
 - use state in recipeDetailed ✅
-- feature to add recipe
+- feature to add recipe ✅
   - images for recipes
 - link to go back to all recipes ('/')
 - locally store recipes ✅

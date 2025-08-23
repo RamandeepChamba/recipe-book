@@ -38,13 +38,17 @@ function AddRecipeForm() {
   // used for updating the step
   const [currentStep, setCurrentStep] = useState(null);
   const [steps, setSteps] = useState([]);
+  // to disable add
+  const [isAdding, setIsAdding] = useState(false);
   const { dispatch } = useRecipes();
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
     if (!name || ingredients.length === 0 || steps.length === 0) return;
-    // Image url
+
+    setIsAdding(true);
+
     const recipe = {
       id: uuidv4(),
       name,
@@ -52,6 +56,7 @@ function AddRecipeForm() {
       steps,
     };
 
+    // Image url
     const imgUrl = await uploadRecipeImage(image);
     recipe.imgUrl = imgUrl;
     dispatch({ type: "addRecipe", payload: recipe });
@@ -158,7 +163,7 @@ function AddRecipeForm() {
             />
           ))}
         </div>
-        <Button type="submit" variation="success">
+        <Button type="submit" variation="success" disabled={isAdding}>
           Add
         </Button>
       </Form>
