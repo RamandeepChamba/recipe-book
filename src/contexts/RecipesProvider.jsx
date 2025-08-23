@@ -24,7 +24,9 @@ const recipesTemp2 = [
       { name: "sugar", quantity: 2, unit: "tsp" },
       { name: "flour", quantity: 20, unit: "g" },
     ],
-    steps: ["Chicken or something", "step #2"],
+    steps: ["Make a dough", "step #2"],
+    imgUrl:
+      "https://ekrjwnauejgijdpgrsbr.supabase.co/storage/v1/object/public/recipe-images/f2ac87e9-51ca-4872-ad34-db5569bb4d5f.webp",
   },
   {
     id: "s2",
@@ -34,6 +36,8 @@ const recipesTemp2 = [
       { name: "flour", quantity: 20, unit: "g" },
     ],
     steps: ["step #1", "step #2"],
+    imgUrl:
+      "https://ekrjwnauejgijdpgrsbr.supabase.co/storage/v1/object/public/recipe-images/7d949d1c-c4e6-4521-88ab-57282e545458.jfif",
   },
   {
     id: "s3",
@@ -43,7 +47,9 @@ const recipesTemp2 = [
       { name: "Milk", quantity: 1, unit: "Litre" },
       { name: "Sugar", quantity: 2, unit: "tsp" },
     ],
-    steps: ["step #1", "Pour water and chicken"],
+    steps: ["Pour a cup of milk", "Add sugar"],
+    imgUrl:
+      "https://ekrjwnauejgijdpgrsbr.supabase.co/storage/v1/object/public/recipe-images/75197a4f-62ee-4068-af78-bac9f622151c.jfif",
   },
 ];
 
@@ -52,7 +58,7 @@ const recipesTemp = [...recipesTemp2];
 
 const initState = {
   // Load from local storage
-  recipes: JSON.parse(localStorage.getItem('recipes')) ?? recipesTemp,
+  recipes: JSON.parse(localStorage.getItem("recipes")) ?? recipesTemp,
   // Using this in case user has searched previously and is only changing page
   // Avoids filtering again if only page is changed but query is same
   // For optimization
@@ -166,7 +172,7 @@ function reducer(state, action) {
     }
     // Add recipe
     case "addRecipe": {
-      return {...state, recipes: [...state.recipes, action.payload]}
+      return { ...state, recipes: [...state.recipes, action.payload] };
     }
     default:
       return state;
@@ -186,16 +192,21 @@ export function RecipesProvider({ children }) {
     : state.recipes.length;
 
   // Sync local storage
-  useEffect(function() {
-    localStorage.setItem('recipes', JSON.stringify(state.recipes));
-  }, [state]);
+  useEffect(
+    function () {
+      localStorage.setItem("recipes", JSON.stringify(state.recipes));
+    },
+    [state]
+  );
 
   function getRecipe(id) {
-    return state.recipes.find(rec => rec.id === id);
+    return state.recipes.find((rec) => rec.id === id);
   }
 
   return (
-    <RecipesContext.Provider value={{ state, dispatch, recipesCount, getRecipe }}>
+    <RecipesContext.Provider
+      value={{ state, dispatch, recipesCount, getRecipe }}
+    >
       {children}
     </RecipesContext.Provider>
   );

@@ -38,7 +38,7 @@ function AddRecipeForm() {
   // used for updating the step
   const [currentStep, setCurrentStep] = useState(null);
   const [steps, setSteps] = useState([]);
-  const {dispatch} = useRecipes();
+  const { dispatch } = useRecipes();
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
@@ -54,8 +54,7 @@ function AddRecipeForm() {
 
     const imgUrl = await uploadRecipeImage(image);
     recipe.imgUrl = imgUrl;
-    console.log(recipe);
-    dispatch({type: 'addRecipe', payload: recipe});
+    dispatch({ type: "addRecipe", payload: recipe });
     navigate(`/recipe/${recipe.id}`);
   }
   function handleAddIngredientBtn() {

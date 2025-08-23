@@ -1,13 +1,14 @@
 import styled, { css } from "styled-components";
 import { Button } from "../../ui/Button";
-import BackgroundImg from "../../assets/recipe.webp";
 import { respond } from "../../styles/mixins";
 import { Link } from "react-router-dom";
 
 const Container = styled.div`
   aspect-ratio: 3 / 4;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
-    url(${BackgroundImg});
+  ${(props) => css`
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0)),
+      url(${props.$imgUrl});
+  `}
   color: var(--color-light-3);
   background-size: cover;
   background-position: center;
@@ -54,9 +55,9 @@ const Container = styled.div`
 `;
 
 function RecipeListItem({ recipe }) {
-  const { id, name } = recipe;
+  const { id, name, imgUrl } = recipe;
   return (
-    <Container>
+    <Container $imgUrl={imgUrl}>
       {/* Name */}
       <h3>{name}</h3>
       <Button
