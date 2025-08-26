@@ -1,3 +1,7 @@
+# GUIDE
+
+## check /readme.pptx for documentation
+
 # TODOS
 
 - use state in recipeDetailed ✅
